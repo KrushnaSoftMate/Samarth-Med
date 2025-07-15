@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 import {
   Box,
   Flex,
@@ -13,16 +13,22 @@ import {
   Text,
   Badge,
   Collapse,
-} from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { FaPlus, FaShoppingCart } from "react-icons/fa";
-import { Link as RouterLink, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
+} from "@chakra-ui/react"
+import { HamburgerIcon, CloseIcon, ChevronDownIcon } from "@chakra-ui/icons"
+import { FaShoppingCart, FaUserShield, FaOm } from "react-icons/fa"
+import { Link as RouterLink, useLocation } from "react-router-dom"
+import { useCart } from "../context/CartContext"
+import { useAdmin } from "../context/AdminContext"
+import { motion, AnimatePresence, type Variants } from "framer-motion"
+import { useState, useEffect } from "react"
 
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+const MotionBox = motion(Box)
+const MotionFlex = motion(Flex)
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -30,55 +36,69 @@ const navLinks = [
   { name: "Products", href: "/products" },
   { name: "Contact", href: "/contact" },
   { name: "Cart", href: "/cart" },
-  { name: "Billing", href: "/billing" },
-];
+]
 
 const Navbar: React.FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [scrolled, setScrolled] = useState(false);
-  const bg = useColorModeValue("white", "gray.800");
-  const scrolledBg = useColorModeValue(
-    "rgba(255, 255, 255, 0.95)",
-    "rgba(26, 32, 44, 0.95)"
-  );
-  const borderColor = useColorModeValue("gray.200", "gray.700");
-  const hoverBg = useColorModeValue("gray.100", "gray.700");
-  const location = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [scrolled, setScrolled] = useState(false)
+  const bg = useColorModeValue("rgba(255, 248, 225, 0.95)", "gray.800")
+  const scrolledBg = useColorModeValue("rgba(255, 248, 225, 0.98)", "rgba(26, 32, 44, 0.95)")
+  const borderColor = useColorModeValue("saffron.200", "gray.700")
+  const hoverBg = useColorModeValue("spiritual.100", "gray.700")
+  const location = useLocation()
 
-  const { getCartCount } = useCart();
-  const cartCount = getCartCount();
+  const { getCartCount } = useCart()
+  const { user, isAuthenticated, logout } = useAdmin()
+  const cartCount = getCartCount()
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+      setScrolled(window.scrollY > 20)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const logoVariants: Variants = {
+    hover: { scale: 1.05, rotate: 5 },
+    tap: { scale: 0.95 },
+  }
+
+  const omVariants: Variants = {
+    hover: { rotate: 360, scale: 1.1 },
+  }
+
+  const linkVariants: Variants = {
+    hover: { y: -2, color: "#FF9800" },
+  }
+
+  const badgeVariants: Variants = {
+    hidden: { scale: 0 },
+    visible: { scale: 1 },
+    exit: { scale: 0 },
+    hover: { scale: 1.1 },
+  }
 
   return (
     <MotionBox
       bg={scrolled ? scrolledBg : bg}
-      backdropFilter={scrolled ? "blur(10px)" : "none"}
-      borderBottom="1px"
-      borderColor={scrolled ? "transparent" : borderColor}
+      backdropFilter="blur(20px)"
+      borderBottom="2px solid"
+      borderColor={scrolled ? "saffron.300" : borderColor}
       position="sticky"
       top={0}
       zIndex={1000}
-      transition="all 0.3s ease"
-      shadow={scrolled ? "lg" : "none"}
-      animate={{
-        backgroundColor: scrolled ? scrolledBg : bg,
-      }}
+      shadow={scrolled ? "xl" : "md"}
+      transition={{ duration: 0.3 }}
     >
       <MotionFlex
-        h={scrolled ? 14 : 16}
+        h={scrolled ? 16 : 20}
         alignItems="center"
         justifyContent="space-between"
         maxW="7xl"
         mx="auto"
-        px={4}
+        px={6}
         transition={{ duration: 0.3 }}
       >
         <HStack spacing={8} alignItems="center">
@@ -87,68 +107,73 @@ const Navbar: React.FC = () => {
             to="/"
             display="flex"
             alignItems="center"
-            gap={2}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            gap={3}
+            variants={logoVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
             <MotionBox
-              w={scrolled ? 7 : 8}
-              h={scrolled ? 7 : 8}
-              bg="brand.500"
-              borderRadius="md"
+              w={scrolled ? 10 : 12}
+              h={scrolled ? 10 : 12}
+              bg="linear-gradient(135deg, #FF9800, #FF6F00)"
+              borderRadius="xl"
               display="flex"
               alignItems="center"
               justifyContent="center"
-              whileHover={{ rotate: 180 }}
-              transition={{ duration: 0.3 }}
+              shadow="lg"
+              border="2px solid"
+              borderColor="saffron.300"
+              variants={omVariants}
+              whileHover="hover"
+              transition={{ duration: 0.6 }}
             >
-              <FaPlus color="white" size={scrolled ? 14 : 16} />
+              <FaOm color="white" size={scrolled ? 20 : 24} />
             </MotionBox>
-            <Text
-              fontSize={scrolled ? "lg" : "xl"}
-              fontWeight="bold"
-              color="brand.500"
-            >
-              SamarthMed
-            </Text>
+            <Box>
+              <Text
+                fontSize={scrolled ? "xl" : "2xl"}
+                fontWeight="bold"
+                bgGradient="linear(to-r, saffron.600, saffron.800)"
+                bgClip="text"
+                fontFamily="Poppins"
+              >
+                Samarth Pharma
+              </Text>
+              <Text fontSize="xs" color="saffron.600" fontWeight="medium" mt={-1}>
+                श्री स्वामी समर्थ कृपा
+              </Text>
+            </Box>
           </MotionBox>
 
-          <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
-            {navLinks.slice(0, -2).map((link, index) => (
-              <MotionBox
-                key={link.name}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
+          <HStack as="nav" spacing={6} display={{ base: "none", md: "flex" }}>
+            {navLinks.slice(0, -1).map((link) => (
+              <MotionBox key={link.name} variants={linkVariants} whileHover="hover" transition={{ duration: 0.2 }}>
                 <Link
                   as={RouterLink}
                   to={link.href}
-                  px={3}
+                  px={4}
                   py={2}
-                  rounded="md"
-                  color={
-                    location.pathname === link.href ? "brand.500" : "gray.600"
-                  }
-                  fontWeight={
-                    location.pathname === link.href ? "semibold" : "normal"
-                  }
+                  rounded="xl"
+                  color={location.pathname === link.href ? "saffron.600" : "gray.700"}
+                  fontWeight={location.pathname === link.href ? "bold" : "semibold"}
                   position="relative"
+                  fontSize="md"
                   _hover={{
                     textDecoration: "none",
                     bg: hoverBg,
-                    color: "brand.500",
+                    color: "saffron.600",
                   }}
                   _after={
                     location.pathname === link.href
                       ? {
                         content: '""',
                         position: "absolute",
-                        bottom: "-2px",
+                        bottom: "0px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        width: "20px",
-                        height: "2px",
-                        bg: "brand.500",
+                        width: "30px",
+                        height: "3px",
+                        bg: "linear-gradient(to-r, #FF9800, #FF6F00)",
                         borderRadius: "full",
                       }
                       : {}
@@ -159,73 +184,98 @@ const Navbar: React.FC = () => {
               </MotionBox>
             ))}
 
-            <MotionBox position="relative" whileHover={{ y: -2 }}>
+            <MotionBox position="relative" variants={linkVariants} whileHover="hover">
               <Link
                 as={RouterLink}
                 to="/cart"
-                px={3}
+                px={4}
                 py={2}
-                rounded="md"
-                color={location.pathname === "/cart" ? "brand.500" : "gray.600"}
-                fontWeight={
-                  location.pathname === "/cart" ? "semibold" : "normal"
-                }
+                rounded="xl"
+                color={location.pathname === "/cart" ? "saffron.600" : "gray.700"}
+                fontWeight={location.pathname === "/cart" ? "bold" : "semibold"}
                 _hover={{
                   textDecoration: "none",
                   bg: hoverBg,
-                  color: "brand.500",
+                  color: "saffron.600",
                 }}
                 display="flex"
                 alignItems="center"
                 gap={2}
+                fontSize="md"
               >
                 <FaShoppingCart />
                 Cart
                 <AnimatePresence>
                   {cartCount > 0 && (
-                    <MotionBox
-                      as={Badge}
+                    <Badge
+                      as={MotionBox}
                       colorScheme="red"
                       borderRadius="full"
                       fontSize="xs"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      whileHover={{ scale: 1.1 }}
+                      variants={badgeVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      whileHover="hover"
+                      bg="linear-gradient(135deg, #FF5722, #D32F2F)"
+                      color="white"
                     >
                       {cartCount}
-                    </MotionBox>
+                    </Badge>
                   )}
                 </AnimatePresence>
-              </Link>
-            </MotionBox>
-
-            <MotionBox whileHover={{ y: -2 }}>
-              <Link
-                as={RouterLink}
-                to="/billing"
-                px={3}
-                py={2}
-                rounded="md"
-                color={
-                  location.pathname === "/billing" ? "brand.500" : "gray.600"
-                }
-                fontWeight={
-                  location.pathname === "/billing" ? "semibold" : "normal"
-                }
-                _hover={{
-                  textDecoration: "none",
-                  bg: hoverBg,
-                  color: "brand.500",
-                }}
-              >
-                Billing
               </Link>
             </MotionBox>
           </HStack>
         </HStack>
 
-        <MotionBox whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <HStack spacing={4}>
+          {/* Admin Menu */}
+          {isAuthenticated ? (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                variant="ghost"
+                icon={
+                  <HStack>
+                    <Avatar size="sm" name={user?.name} bg="saffron.500" />
+                    <ChevronDownIcon />
+                  </HStack>
+                }
+                display={{ base: "none", md: "flex" }}
+                _hover={{ bg: hoverBg }}
+              />
+              <MenuList borderColor="saffron.200" shadow="xl">
+                <MenuItem as={RouterLink} to="/admin/dashboard" icon={<FaUserShield />}>
+                  Admin Dashboard
+                </MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Link
+              as={RouterLink}
+              to="/admin/login"
+              px={4}
+              py={2}
+              rounded="xl"
+              color="gray.700"
+              fontWeight="semibold"
+              _hover={{
+                textDecoration: "none",
+                bg: hoverBg,
+                color: "saffron.600",
+              }}
+              display={{ base: "none", md: "flex" }}
+              alignItems="center"
+              gap={2}
+              fontSize="sm"
+            >
+              <FaUserShield />
+              Admin
+            </Link>
+          )}
+
           <IconButton
             size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -233,63 +283,71 @@ const Navbar: React.FC = () => {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
             variant="ghost"
+            color="saffron.600"
+            _hover={{ bg: hoverBg }}
           />
-        </MotionBox>
+        </HStack>
       </MotionFlex>
 
       <Collapse in={isOpen} animateOpacity>
-        <Box
-          pb={4}
-          display={{ md: "none" }}
-          bg={bg}
-          borderTop="1px"
-          borderColor={borderColor}
-        >
-          <Stack as="nav" spacing={4} px={4}>
+        <Box pb={4} display={{ md: "none" }} bg={bg} borderTop="1px" borderColor={borderColor}>
+          <Stack as="nav" spacing={4} px={6}>
             {navLinks.map((link, index) => (
-              <MotionBox
+              <Link
                 key={link.name}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
+                as={RouterLink}
+                to={link.href}
+                px={3}
+                py={2}
+                rounded="xl"
+                color={location.pathname === link.href ? "saffron.600" : "gray.700"}
+                fontWeight={location.pathname === link.href ? "bold" : "semibold"}
+                _hover={{
+                  textDecoration: "none",
+                  bg: hoverBg,
+                  color: "saffron.600",
+                }}
+                onClick={onClose}
+                display="flex"
+                alignItems="center"
+                gap={2}
               >
-                <Link
-                  as={RouterLink}
-                  to={link.href}
-                  px={2}
-                  py={1}
-                  rounded="md"
-                  color={
-                    location.pathname === link.href ? "brand.500" : "gray.600"
-                  }
-                  fontWeight={
-                    location.pathname === link.href ? "semibold" : "normal"
-                  }
-                  _hover={{
-                    textDecoration: "none",
-                    bg: hoverBg,
-                    color: "brand.500",
-                  }}
-                  onClick={onClose}
-                  display="flex"
-                  alignItems="center"
-                  gap={2}
-                >
-                  {link.name === "Cart" && <FaShoppingCart />}
-                  {link.name}
-                  {link.name === "Cart" && cartCount > 0 && (
-                    <Badge colorScheme="red" borderRadius="full" fontSize="xs">
-                      {cartCount}
-                    </Badge>
-                  )}
-                </Link>
-              </MotionBox>
+                {link.name === "Cart" && <FaShoppingCart />}
+                {link.name}
+                {link.name === "Cart" && cartCount > 0 && (
+                  <Badge colorScheme="red" borderRadius="full" fontSize="xs">
+                    {cartCount}
+                  </Badge>
+                )}
+              </Link>
             ))}
+            {!isAuthenticated && (
+              <Link
+                as={RouterLink}
+                to="/admin/login"
+                px={3}
+                py={2}
+                rounded="xl"
+                color="gray.700"
+                _hover={{
+                  textDecoration: "none",
+                  bg: hoverBg,
+                  color: "saffron.600",
+                }}
+                onClick={onClose}
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                <FaUserShield />
+                Admin Login
+              </Link>
+            )}
           </Stack>
         </Box>
       </Collapse>
     </MotionBox>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

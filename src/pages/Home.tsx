@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 import {
   Box,
   Container,
@@ -14,221 +14,285 @@ import {
   Image,
   useColorModeValue,
   VStack,
-} from "@chakra-ui/react";
-import {
-  FaShieldAlt,
-  FaTruck,
-  FaUserMd,
-  FaWhatsapp,
-  FaDownload,
-  FaPlay,
-} from "react-icons/fa";
-import { Link as RouterLink } from "react-router-dom";
-import { motion } from "framer-motion";
-import AnimatedCard from "../components/AnimatedCard";
-import GradientText from "../components/GradientText";
-import ParallaxSection from "../components/ParallaxSection";
-import CountUpAnimation from "../components/CountUpAnimation";
+  HStack,
+} from "@chakra-ui/react"
+import { FaShieldAlt, FaTruck, FaUserMd, FaWhatsapp, FaDownload, FaPlay, FaOm, FaHeart } from "react-icons/fa"
+import { Link as RouterLink } from "react-router-dom"
+import { motion, type Variants } from "framer-motion"
+import AnimatedCard from "../components/AnimatedCard"
+import GradientText from "../components/GradientText"
+import CountUpAnimation from "../components/CountUpAnimation"
 
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
+const MotionBox = motion(Box)
+const MotionFlex = motion(Flex)
 
 const features = [
   {
     icon: FaShieldAlt,
-    title: "Quality Assured",
-    description:
-      "All products are sourced from certified manufacturers and undergo strict quality checks.",
-    color: "blue.500",
+    title: "Quality Assurance",
+    description: "All products blessed with quality checks and sourced from certified manufacturers.",
+    color: "saffron.500",
   },
   {
     icon: FaTruck,
-    title: "Fast Delivery",
+    title: "Swift Delivery",
     description:
-      "Quick and reliable delivery across the region with temperature-controlled transport.",
-    color: "green.500",
+      "Quick and reliable delivery across regions with temperature-controlled transport.",
+    color: "sacred.500",
   },
   {
     icon: FaUserMd,
     title: "Expert Support",
-    description:
-      "Professional pharmaceutical guidance and customer support from our experienced team.",
-    color: "purple.500",
+    description: "Professional pharmaceutical guidance with spiritual care from our experienced team.",
+    color: "divine.500",
   },
-];
+]
 
 const stats = [
-  { label: "Happy Customers", value: 500, suffix: "+" },
-  { label: "Products Available", value: 1000, suffix: "+" },
-  { label: "Years Experience", value: 15, suffix: "+" },
+  { label: "Blessed Customers", value: 500, suffix: "+" },
+  { label: "Divine Products", value: 1000, suffix: "+" },
+  { label: "Years of Service", value: 15, suffix: "+" },
   { label: "Cities Served", value: 25, suffix: "+" },
-];
+]
 
 const Home: React.FC = () => {
   const bgGradient = useColorModeValue(
-    "linear(135deg, brand.500 0%, medical.500 50%, brand.600 100%)",
-    "linear(135deg, brand.600 0%, medical.600 50%, brand.700 100%)"
-  );
+    "linear(135deg, saffron.400 0%, spiritual.500 50%, saffron.600 100%)",
+    "linear(135deg, saffron.600 0%, spiritual.600 50%, saffron.700 100%)",
+  )
 
   const handleDownloadCatalog = () => {
-    const link = document.createElement("a");
+    const link = document.createElement("a")
     link.href =
-      "data:application/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PAovVGl0bGUgKFJvdGVNZWQgUHJvZHVjdCBDYXRhbG9nKQo+PgplbmRvYmoKdHJhaWxlcgo8PAovU2l6ZSAxCi9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo5CiUlRU9G";
-    link.download = "rotemed-catalog.pdf";
-    link.click();
-  };
+      "data:application/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PAovVGl0bGUgKFNhbWFydGggUGhhcm1hIFByb2R1Y3QgQ2F0YWxvZykKPj4KZW5kb2JqCnRyYWlsZXIKPDwKL1NpemUgMQovUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKOQolJUVPRg=="
+    link.download = "samarth-pharma-catalog.pdf"
+    link.click()
+  }
+
+  const heroVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  }
+
+  const heroContentVariants: Variants = {
+    hidden: { x: -100, opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+  }
+
+  const heroImageVariants: Variants = {
+    hidden: { x: 100, opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+    hover: { scale: 1.05, rotateY: 5 },
+  }
+
+  const textVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  }
+
+  const buttonVariants: Variants = {
+    hover: {
+      y: -2,
+      transition: { duration: 0.3 },
+    },
+    tap: { scale: 0.95 },
+  }
+
+  const iconHoverVariants: Variants = {
+    hover: { rotate: 360, scale: 1.1 },
+  }
+
+  const featureBoxVariants: Variants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  }
 
   return (
     <Box>
-      {/* Hero Section with Parallax */}
-      <ParallaxSection
-        backgroundImage="/images/hero-medical.jpg"
-        height="100vh"
+      {/* Hero Section with Spiritual Background */}
+      <Box
+        bgGradient={bgGradient}
+        color="white"
+        minH="100vh"
+        display="flex"
+        alignItems="center"
+        position="relative"
+        overflow="hidden"
+        _before={{
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          bgImage:
+            "radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)",
+          zIndex: 1,
+        }}
       >
+        {/* Floating Om Symbols */}
         <MotionBox
-          bgGradient={bgGradient}
-          color="white"
-          minH="100vh"
-          display="flex"
-          alignItems="center"
-          position="relative"
-          _before={{
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            bg: "rgba(0,0,0,0.4)",
-            zIndex: 1,
-          }}
+          position="absolute"
+          top="10%"
+          right="10%"
+          opacity={0.1}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         >
-          <Container maxW="7xl" position="relative" zIndex={2}>
-            <MotionFlex
-              align="center"
-              justify="space-between"
-              direction={{ base: "column", lg: "row" }}
-              gap={12}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <MotionBox
-                flex={1}
-                textAlign={{ base: "center", lg: "left" }}
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <GradientText
-                  as="h1"
-                  fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
-                  mb={6}
-                  lineHeight="shorter"
-                  gradient="linear(to-r, white, gray.100)"
-                >
-                  Your Trusted Medical Wholesaler
-                </GradientText>
-
-                <MotionBox
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <Text
-                    fontSize={{ base: "lg", md: "xl" }}
-                    mb={8}
-                    opacity={0.9}
-                    maxW="600px"
-                  >
-                    RoteMed provides high-quality pharmaceutical products with
-                    reliable service and competitive pricing for healthcare
-                    providers across the region.
-                  </Text>
-                </MotionBox>
-
-                <MotionBox
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                  <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
-                    <Button
-                      as={RouterLink}
-                      to="/products"
-                      size="lg"
-                      colorScheme="whiteAlpha"
-                      variant="solid"
-                      leftIcon={<FaPlay />}
-                      _hover={{
-                        transform: "translateY(-2px)",
-                        shadow: "xl",
-                      }}
-                      transition="all 0.3s ease"
-                    >
-                      View Products
-                    </Button>
-                    <Button
-                      as="a"
-                      href="https://wa.me/1234567890?text=Hello%20RoteMed,%20I%20would%20like%20to%20inquire%20about%20your%20products"
-                      target="_blank"
-                      size="lg"
-                      leftIcon={<FaWhatsapp />}
-                      colorScheme="whatsapp"
-                      variant="solid"
-                      _hover={{
-                        transform: "translateY(-2px)",
-                        shadow: "xl",
-                      }}
-                      transition="all 0.3s ease"
-                    >
-                      Order on WhatsApp
-                    </Button>
-                  </Stack>
-                </MotionBox>
-              </MotionBox>
-
-              <MotionBox
-                flex={1}
-                display={{ base: "none", lg: "block" }}
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <MotionBox
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image
-                    src="/images/hero-medical.jpg"
-                    alt="Medical supplies"
-                    borderRadius="2xl"
-                    shadow="2xl"
-                    border="4px solid"
-                    borderColor="whiteAlpha.300"
-                  />
-                </MotionBox>
-              </MotionBox>
-            </MotionFlex>
-          </Container>
+          <FaOm size={100} />
         </MotionBox>
-      </ParallaxSection>
+        <MotionBox
+          position="absolute"
+          bottom="20%"
+          left="5%"
+          opacity={0.1}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        >
+          <FaOm size={80} />
+        </MotionBox>
 
-      {/* Stats Section */}
-      <Box py={16} bg="white" position="relative">
-        <Container maxW="7xl">
+        <Container maxW="7xl" position="relative" zIndex={2}>
+          <MotionFlex align="center" justify="space-between" direction={{ base: "column", lg: "row" }} gap={12}>
+            <MotionBox
+              flex={1}
+              textAlign={{ base: "center", lg: "left" }}
+              variants={heroContentVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <HStack justify={{ base: "center", lg: "flex-start" }} mb={4}>
+                <FaOm size={40} color="#FFE082" />
+                <Text fontSize="lg" color="spiritual.200" fontWeight="medium">
+                  श्री स्वामी समर्थ कृपा
+                </Text>
+              </HStack>
+
+              <GradientText
+                as="h1"
+                fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+                mb={6}
+                lineHeight="shorter"
+                gradient="linear(to-r, white, spiritual.100)"
+                fontFamily="Poppins"
+              >
+                Your Blessed Medical Partner
+              </GradientText>
+
+              <MotionBox
+                variants={textVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <Text fontSize={{ base: "lg", md: "xl" }} mb={8} opacity={0.9} maxW="600px">
+                  Samarth Pharma provides divine quality pharmaceutical products with blessed service and spiritual care
+                  for healthcare providers across the region. Serving with devotion since years.
+                </Text>
+              </MotionBox>
+
+              <MotionBox
+                variants={textVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
+                  <MotionButton
+                    as={RouterLink}
+                    to="/products"
+                    size="lg"
+                    variant="spiritual"
+                    leftIcon={<FaPlay />}
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    shadow="xl"
+                  >
+                    Explore Products
+                  </MotionButton>
+                  <MotionButton
+                    as="a"
+                    href="https://wa.me/9325638959?text=नमस्कार%20Samarth%20Pharma,%20I%20would%20like%20to%20inquire%20about%20your%20blessed%20products"
+                    target="_blank"
+                    size="lg"
+                    leftIcon={<FaWhatsapp />}
+                    colorScheme="whatsapp"
+                    variant="solid"
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    shadow="xl"
+                  >
+                    WhatsApp Order
+                  </MotionButton>
+                </Stack>
+              </MotionBox>
+            </MotionBox>
+
+            <MotionBox
+              flex={1}
+              display={{ base: "none", lg: "block" }}
+              variants={heroImageVariants}
+              initial="hidden"
+              animate="visible"
+              whileHover="hover"
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <Box position="relative">
+                <Image
+                  src="/images/hero-medical.jpg"
+                  alt="Divine Medical supplies"
+                  borderRadius="3xl"
+                  shadow="2xl"
+                  border="4px solid"
+                  borderColor="whiteAlpha.300"
+                />
+                <Box
+                  position="absolute"
+                  top="-10px"
+                  right="-10px"
+                  w={16}
+                  h={16}
+                  bg="spiritual.400"
+                  borderRadius="full"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  shadow="xl"
+                >
+                  <FaOm size={24} color="white" />
+                </Box>
+              </Box>
+            </MotionBox>
+          </MotionFlex>
+        </Container>
+      </Box>
+
+      {/* Stats Section with Spiritual Design */}
+      <Box py={16} bg="white" position="relative" overflow="hidden">
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          bgImage="radial-gradient(circle at 50% 50%, rgba(255, 152, 0, 0.05) 0%, transparent 70%)"
+        />
+        <Container maxW="7xl" position="relative">
           <SimpleGrid columns={{ base: 2, md: 4 }} spacing={8}>
             {stats.map((stat, index) => (
               <AnimatedCard key={index} delay={index * 0.1} hover={false}>
-                <VStack p={6} textAlign="center">
+                <VStack p={6} textAlign="center" spacing={3}>
                   <CountUpAnimation
                     value={stat.value}
                     suffix={stat.suffix}
-                    fontSize="4xl"
+                    fontSize="3xl"
                     fontWeight="bold"
-                    color="brand.500"
+                    color="saffron.600"
                   />
-                  <Text color="gray.600" fontWeight="medium">
+                  <Text color="gray.600" fontWeight="medium" fontSize="sm">
                     {stat.label}
                   </Text>
                 </VStack>
@@ -238,56 +302,67 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Features Section */}
-      <Box py={20} bg="gray.50">
+      {/* Features Section with Spiritual Theme */}
+      <Box py={20} bg="spiritual.50" position="relative">
         <Container maxW="7xl">
           <MotionBox
             textAlign="center"
             mb={16}
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
+            variants={featureBoxVariants}
+            initial="hidden"
+            whileInView="visible"
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <GradientText as="h2" fontSize="4xl" mb={4}>
-              Why Choose RoteMed?
-            </GradientText>
+            <HStack justify="center" mb={4}>
+              <GradientText
+                as="h2"
+                fontSize="4xl"
+                gradient="linear(to-r, saffron.600, saffron.800)"
+                fontFamily="Poppins"
+              >
+                Why Choose Samarth Pharma?
+              </GradientText>
+            </HStack>
             <Text fontSize="xl" color="gray.600" maxW="3xl" mx="auto">
-              We are committed to providing the highest quality medical products
-              with exceptional service and competitive pricing.
+              We serve with divine blessings, providing the highest quality medical products with spiritual care,
+              exceptional service and blessed pricing.
             </Text>
           </MotionBox>
 
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
             {features.map((feature, index) => (
               <AnimatedCard key={index} delay={index * 0.2}>
-                <VStack p={8} textAlign="center" spacing={6}>
-                  <MotionBox
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
+                <VStack p={8} textAlign="center" spacing={6} bg="white" borderRadius="2xl" position="relative">
+                  <Box
+                    position="absolute"
+                    top="-20px"
+                    left="50%"
+                    transform="translateX(-50%)"
+                    w={16}
+                    h={16}
+                    bg="linear-gradient(135deg, #FF9800, #FF6F00)"
+                    borderRadius="full"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    shadow="xl"
+                    border="4px solid white"
                   >
-                    <Box
-                      p={4}
-                      borderRadius="full"
-                      bg={`${feature.color.split(".")[0]}.50`}
-                      display="inline-block"
-                    >
-                      <Icon
-                        as={feature.icon}
-                        w={8}
-                        h={8}
-                        color={feature.color}
-                      />
-                    </Box>
-                  </MotionBox>
+                    <MotionBox variants={iconHoverVariants} whileHover="hover" transition={{ duration: 0.6 }}>
+                      <Icon as={feature.icon} w={6} h={6} color="white" />
+                    </MotionBox>
+                  </Box>
 
-                  <Heading as="h3" size="lg" color="gray.800">
-                    {feature.title}
-                  </Heading>
+                  <Box pt={6}>
+                    <Heading as="h3" size="lg" color="gray.800" mb={4} fontFamily="Poppins">
+                      {feature.title}
+                    </Heading>
 
-                  <Text color="gray.600" lineHeight="tall">
-                    {feature.description}
-                  </Text>
+                    <Text color="gray.600" lineHeight="tall">
+                      {feature.description}
+                    </Text>
+                  </Box>
                 </VStack>
               </AnimatedCard>
             ))}
@@ -295,88 +370,89 @@ const Home: React.FC = () => {
         </Container>
       </Box>
 
-      {/* CTA Section */}
+      {/* CTA Section with Divine Theme */}
       <Box bg="white" py={20}>
         <Container maxW="7xl">
           <AnimatedCard hover={false}>
             <Box
-              bgGradient="linear(135deg, brand.500, medical.500)"
+              bgGradient="linear(135deg, saffron.500, spiritual.500, saffron.600)"
               color="white"
               p={12}
               textAlign="center"
-              borderRadius="2xl"
+              borderRadius="3xl"
+              position="relative"
+              overflow="hidden"
+              _before={{
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                bgImage: "radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)",
+              }}
             >
-              <GradientText
-                as="h2"
-                fontSize="3xl"
-                mb={4}
-                gradient="linear(to-r, white, gray.100)"
-              >
-                Ready to Get Started?
-              </GradientText>
+              <VStack spacing={6} position="relative">
+                <HStack>
+                  <GradientText
+                    as="h2"
+                    fontSize="3xl"
+                    gradient="linear(to-r, white, spiritual.100)"
+                    fontFamily="Poppins"
+                  >
+                    Ready to Experience Divine Service?
+                  </GradientText>
+                </HStack>
 
-              <Text fontSize="xl" mb={8} opacity={0.9}>
-                Contact us today for competitive pricing and reliable service.
-              </Text>
+                <Text fontSize="xl" opacity={0.9} maxW="2xl">
+                  Contact us today for blessed pricing, divine quality and spiritual service. Let Swami Samarth's
+                  blessings guide your healthcare journey.
+                </Text>
 
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                spacing={4}
-                justify="center"
-              >
-                <Button
-                  as={RouterLink}
-                  to="/contact"
-                  size="lg"
-                  colorScheme="whiteAlpha"
-                  variant="solid"
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    shadow: "xl",
-                  }}
-                  transition="all 0.3s ease"
-                >
-                  Contact Us
-                </Button>
+                <Stack direction={{ base: "column", sm: "row" }} spacing={4} justify="center">
+                  <MotionButton
+                    as={RouterLink}
+                    to="/contact"
+                    size="lg"
+                    colorScheme="whiteAlpha"
+                    variant="solid"
+                    leftIcon={<FaHeart />}
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    shadow="xl"
+                  >
+                    Contact Us
+                  </MotionButton>
 
-                <Button
-                  as={RouterLink}
-                  to="/billing"
-                  size="lg"
-                  variant="outline"
-                  colorScheme="whiteAlpha"
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    shadow: "xl",
-                    bg: "whiteAlpha.200",
-                  }}
-                  transition="all 0.3s ease"
-                >
-                  Create Invoice
-                </Button>
+                  <MotionButton
+                    leftIcon={<FaDownload />}
+                    size="lg"
+                    variant="outline"
+                    colorScheme="whiteAlpha"
+                    onClick={handleDownloadCatalog}
+                    variants={buttonVariants}
+                    whileHover="hover"
+                    whileTap="tap"
+                    shadow="xl"
+                  >
+                    Download Catalog
+                  </MotionButton>
+                </Stack>
 
-                <Button
-                  leftIcon={<FaDownload />}
-                  size="lg"
-                  variant="outline"
-                  colorScheme="whiteAlpha"
-                  onClick={handleDownloadCatalog}
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    shadow: "xl",
-                    bg: "whiteAlpha.200",
-                  }}
-                  transition="all 0.3s ease"
-                >
-                  Download Catalog
-                </Button>
-              </Stack>
+                <Text fontSize="sm" opacity={0.8} fontStyle="italic">
+                  "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः" - May all be happy, may all be healthy
+                </Text>
+              </VStack>
             </Box>
           </AnimatedCard>
         </Container>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default Home;
+// Create motion components
+const MotionButton = motion(Button)
+
+export default Home

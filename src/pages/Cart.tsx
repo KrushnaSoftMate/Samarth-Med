@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import type React from "react";
+import type React from "react"
 import {
   Box,
   Container,
@@ -23,85 +23,88 @@ import {
   useToast,
   SimpleGrid,
   Flex,
-} from "@chakra-ui/react";
-import {
-  FaTrash,
-  FaWhatsapp,
-  FaShoppingCart,
-  FaArrowRight,
-} from "react-icons/fa";
-import { Link as RouterLink } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+} from "@chakra-ui/react"
+import { FaTrash, FaWhatsapp, FaArrowRight, FaOm, FaHeart } from "react-icons/fa"
+import { Link as RouterLink } from "react-router-dom"
+import { useCart } from "../context/CartContext"
+import GradientText from "../components/GradientText"
+import { motion } from "framer-motion"
+
+const MotionBox = motion(Box)
 
 const Cart: React.FC = () => {
-  const { state, removeFromCart, updateQuantity, clearCart } = useCart();
-  const toast = useToast();
+  const { state, removeFromCart, updateQuantity, clearCart } = useCart()
+  const toast = useToast()
 
   const handleWhatsAppOrder = () => {
     if (state.items.length === 0) {
       toast({
-        title: "Cart is empty",
+        title: "Cart is Empty",
         description: "Please add items to your cart before ordering.",
         status: "warning",
         duration: 3000,
         isClosable: true,
-      });
-      return;
+      })
+      return
     }
 
     const orderDetails = state.items
-      .map(
-        (item) =>
-          `${item.name} x${item.quantity} - $${(
-            item.price * item.quantity
-          ).toFixed(2)}`
-      )
-      .join("\n");
+      .map((item) => `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}`)
+      .join("\n")
 
-    const message = `Hello RoteMed, I would like to place the following order:\n\n${orderDetails}\n\nTotal: $${state.total.toFixed(
-      2
-    )}\n\nPlease confirm availability and delivery details.`;
+    const message = `नमस्कार Samarth Pharma, I would like to place the following order:\n\n${orderDetails}\n\nTotal: ₹${state.total.toFixed(2)}\n\nPlease confirm availability and delivery details with Swami Samarth's grace.`
 
-    const whatsappUrl = `https://wa.me/9325638959?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-  };
+    const whatsappUrl = `https://wa.me/9325638959?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, "_blank")
+  }
 
   const handleClearCart = () => {
-    clearCart();
+    clearCart()
     toast({
-      title: "Cart cleared",
+      title: "Cart Cleared",
       description: "All items have been removed from your cart.",
       status: "info",
       duration: 3000,
       isClosable: true,
-    });
-  };
+    })
+  }
 
   if (state.items.length === 0) {
     return (
       <Container maxW="7xl" py={12}>
         <VStack spacing={8} textAlign="center">
-          <FaShoppingCart size={64} color="gray.300" />
-          <Heading as="h1" size="xl" color="gray.500">
-            Your Cart is Empty
-          </Heading>
-          <Text fontSize="lg" color="gray.600">
-            Browse our products and add items to your cart to get started.
-          </Text>
-          <Button
-            as={RouterLink}
-            to="/products"
-            colorScheme="brand"
-            size="lg"
-            rightIcon={<FaArrowRight />}
+          <MotionBox
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
           >
-            Shop Now
-          </Button>
+            <FaOm size={80} color="#FF9800" opacity={0.5} />
+          </MotionBox>
+          <VStack spacing={4}>
+            <GradientText as="h1" fontSize="3xl" gradient="linear(to-r, saffron.600, saffron.800)" fontFamily="Poppins">
+              Your    Cart is Empty
+            </GradientText>
+            <Text fontSize="lg" color="gray.600">
+              Browse our  products and add    items to your    cart to begin your    shopping
+              journey.
+            </Text>
+            <Button
+              as={RouterLink}
+              to="/products"
+              variant="spiritual"
+              size="lg"
+              rightIcon={<FaArrowRight />}
+              shadow="xl"
+              _hover={{
+                transform: "translateY(-2px)",
+                shadow: "2xl",
+              }}
+            >
+              Explore  Products
+            </Button>
+          </VStack>
         </VStack>
       </Container>
-    );
+    )
   }
 
   return (
@@ -110,16 +113,30 @@ const Cart: React.FC = () => {
         {/* Header */}
         <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
           <Box>
-            <Heading as="h1" size="xl" color="brand.500">
-              Shopping Cart
-            </Heading>
+            <HStack mb={2}>
+              <GradientText
+                as="h1"
+                fontSize="3xl"
+                gradient="linear(to-r, saffron.600, saffron.800)"
+                fontFamily="Poppins"
+              >
+                Shopping Cart
+              </GradientText>
+            </HStack>
             <Text color="gray.600">
-              {state.items.length} item{state.items.length !== 1 ? "s" : ""} in
-              your cart
+              {state.items.length}    item{state.items.length !== 1 ? "s" : ""} in your  cart
             </Text>
           </Box>
-          <Button variant="outline" colorScheme="red" onClick={handleClearCart}>
-            Clear Cart
+          <Button
+            variant="outline"
+            colorScheme="red"
+            onClick={handleClearCart}
+            _hover={{
+              transform: "translateY(-2px)",
+              shadow: "lg",
+            }}
+          >
+            Clear    Cart
           </Button>
         </Flex>
 
@@ -128,35 +145,51 @@ const Cart: React.FC = () => {
           <Box gridColumn={{ base: "1", lg: "1 / 3" }}>
             <VStack spacing={4} align="stretch">
               {state.items.map((item) => (
-                <Card key={item.id}>
+                <Card key={item.id} border="2px solid" borderColor="spiritual.200" borderRadius="2xl">
                   <CardBody>
                     <Flex gap={4} align="center">
-                      <Image
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.name}
-                        boxSize="80px"
-                        objectFit="cover"
-                        borderRadius="md"
-                      />
+                      <Box position="relative">
+                        <Image
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.name}
+                          boxSize="100px"
+                          objectFit="cover"
+                          borderRadius="xl"
+                          border="2px solid"
+                          borderColor="saffron.200"
+                        />
+                        <Box
+                          position="absolute"
+                          top="-5px"
+                          right="-5px"
+                          w={6}
+                          h={6}
+                          bg="saffron.500"
+                          borderRadius="full"
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          <FaOm color="white" size={12} />
+                        </Box>
+                      </Box>
 
                       <Box flex="1">
-                        <Heading size="sm" mb={1}>
+                        <Heading size="md" mb={1} color="gray.800" fontFamily="Poppins">
                           {item.name}
                         </Heading>
-                        <Badge colorScheme="blue" variant="subtle" mb={2}>
+                        <Badge colorScheme="blue" variant="subtle" mb={2} borderRadius="lg">
                           {item.category}
                         </Badge>
-                        <Text fontWeight="bold" color="brand.500">
-                          ${item.price.toFixed(2)} each
+                        <Text fontWeight="bold" color="saffron.600" fontSize="lg">
+                          ₹{item.price.toFixed(2)} each
                         </Text>
                       </Box>
 
                       <VStack spacing={2}>
                         <NumberInput
                           value={item.quantity}
-                          onChange={(_, value) =>
-                            updateQuantity(item.id, value)
-                          }
+                          onChange={(_, value) => updateQuantity(item.id, value)}
                           min={1}
                           max={100}
                           size="sm"
@@ -174,16 +207,20 @@ const Cart: React.FC = () => {
                       </VStack>
 
                       <VStack spacing={2} align="end">
-                        <Text fontWeight="bold" fontSize="lg">
-                          ${(item.price * item.quantity).toFixed(2)}
+                        <Text fontWeight="bold" fontSize="xl" color="saffron.600">
+                          ₹{(item.price * item.quantity).toFixed(2)}
                         </Text>
                         <IconButton
-                          aria-label="Remove item"
+                          aria-label="Remove    item"
                           icon={<FaTrash />}
                           colorScheme="red"
                           variant="ghost"
                           size="sm"
                           onClick={() => removeFromCart(item.id)}
+                          _hover={{
+                            bg: "red.100",
+                            transform: "scale(1.1)",
+                          }}
                         />
                       </VStack>
                     </Flex>
@@ -194,12 +231,23 @@ const Cart: React.FC = () => {
           </Box>
 
           {/* Order Summary */}
-          <Card h="fit-content" position="sticky" top="4">
+          <Card
+            h="fit-content"
+            position="sticky"
+            top="4"
+            border="2px solid"
+            borderColor="saffron.200"
+            borderRadius="2xl"
+            bg="spiritual.50"
+          >
             <CardBody>
               <VStack spacing={4} align="stretch">
-                <Heading size="md" color="brand.500">
-                  Order Summary
-                </Heading>
+                <HStack>
+                  <FaHeart size={20} color="#FF9800" />
+                  <Heading size="md" color="saffron.600" fontFamily="Poppins">
+                      Order Summary
+                  </Heading>
+                </HStack>
 
                 <VStack spacing={2} align="stretch">
                   {state.items.map((item) => (
@@ -207,23 +255,21 @@ const Cart: React.FC = () => {
                       <Text>
                         {item.name} x{item.quantity}
                       </Text>
-                      <Text>${(item.price * item.quantity).toFixed(2)}</Text>
+                      <Text fontWeight="semibold">₹{(item.price * item.quantity).toFixed(2)}</Text>
                     </HStack>
                   ))}
                 </VStack>
 
-                <Divider />
+                <Divider borderColor="saffron.300" />
 
                 <HStack justify="space-between">
                   <Text>Subtotal:</Text>
-                  <Text fontWeight="semibold">${state.total.toFixed(2)}</Text>
+                  <Text fontWeight="semibold">₹{state.total.toFixed(2)}</Text>
                 </HStack>
 
                 <HStack justify="space-between">
-                  <Text>Tax (10%):</Text>
-                  <Text fontWeight="semibold">
-                    ${(state.total * 0.1).toFixed(2)}
-                  </Text>
+                  <Text>Tax (18% GST):</Text>
+                  <Text fontWeight="semibold">₹{(state.total * 0.18).toFixed(2)}</Text>
                 </HStack>
 
                 <HStack justify="space-between">
@@ -233,14 +279,14 @@ const Cart: React.FC = () => {
                   </Text>
                 </HStack>
 
-                <Divider />
+                <Divider borderColor="saffron.300" />
 
                 <HStack justify="space-between">
                   <Text fontSize="lg" fontWeight="bold">
                     Total:
                   </Text>
-                  <Text fontSize="lg" fontWeight="bold" color="brand.500">
-                    ${(state.total * 1.1).toFixed(2)}
+                  <Text fontSize="xl" fontWeight="bold" color="saffron.600">
+                    ₹{(state.total * 1.18).toFixed(2)}
                   </Text>
                 </HStack>
 
@@ -251,38 +297,47 @@ const Cart: React.FC = () => {
                     size="lg"
                     w="full"
                     onClick={handleWhatsAppOrder}
+                    shadow="lg"
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      shadow: "xl",
+                    }}
                   >
                     Order via WhatsApp
                   </Button>
 
                   <Button
                     as={RouterLink}
-                    to="/billing"
-                    colorScheme="brand"
+                    to="/products"
                     variant="outline"
+                    colorScheme="saffron"
                     size="lg"
                     w="full"
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      shadow: "lg",
+                    }}
                   >
-                    Generate Invoice
-                  </Button>
-
-                  <Button
-                    as={RouterLink}
-                    to="/products"
-                    variant="ghost"
-                    size="sm"
-                    w="full"
-                  >
-                    Continue Shopping
+                    Continue    Shopping
                   </Button>
                 </VStack>
+
+                <Box p={4} bg="spiritual.100" borderRadius="xl" border="1px solid" borderColor="saffron.200">
+                  <Text fontSize="sm" color="saffron.700" fontStyle="italic" textAlign="center">
+                    "श्री स्वामी समर्थ कृपा से सेवा"
+                    <br />
+                    <Text fontSize="xs" mt={1}>
+                         with Swami Samarth's grace
+                    </Text>
+                  </Text>
+                </Box>
               </VStack>
             </CardBody>
           </Card>
         </SimpleGrid>
       </VStack>
     </Container>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart
